@@ -1,44 +1,53 @@
+/* Reset & base styles */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  margin: 0;
-  padding: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: url('epic.png') no-repeat center center fixed;
+  background: url('your-background-image.jpg') no-repeat center center fixed;
   background-size: cover;
-  color: white;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  color: white;
 }
 
+/* Container box */
 .container {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.7);
   padding: 40px;
   border-radius: 16px;
   text-align: center;
   width: 90%;
   max-width: 500px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 
+/* Title */
 h2 {
   margin-bottom: 10px;
+  font-size: 1.8rem;
 }
 
+/* Small hint under title */
 .hint {
   font-size: 0.9rem;
   color: #ccc;
   margin-bottom: 20px;
 }
 
+/* The sequence shown */
 #sequence {
   font-size: 1.5rem;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
+/* Input field */
 input[type="number"] {
   width: 80%;
   max-width: 300px;
@@ -52,6 +61,7 @@ input[type="number"] {
   margin-right: auto;
 }
 
+/* Submit button */
 button {
   padding: 10px 20px;
   font-size: 1rem;
@@ -61,13 +71,16 @@ button {
   color: white;
   cursor: pointer;
   margin-top: 10px;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
   background-color: #2980b9;
 }
 
+/* Feedback text */
 #feedback {
   margin-top: 15px;
   font-weight: bold;
+  font-size: 1.1rem;
 }
