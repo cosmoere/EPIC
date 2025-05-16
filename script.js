@@ -1,33 +1,41 @@
-// DOM Elements
-const sequenceEl = document.getElementById('sequence');
-const answerInput = document.getElementById('answer');
-const submitBtn = document.getElementById('submit');
-const feedbackEl = document.getElementById('feedback');
-
-// Game state
-let currentSequence = [];
-let missingIndex = -1;
-let correctAnswer = null;
-
-// Event listener
-submitBtn.addEventListener('click', () => {
-  const userAnswer = answerInput.value.trim();
-  checkAnswer(userAnswer);
-});
-
-// Main functions
+// --- Generate a random arithmetic sequence ---
 function generateSequence() {
-  // (will fill this in next)
+  const start = Math.floor(Math.random() * 10) + 1;         // 1 to 10
+  const diff = Math.floor(Math.random() * 5) + 1;           // +1 to +5
+  return {
+    sequence: [start, start + diff, start + 2 * diff],
+    difference: diff,
+  };
 }
 
-function displaySequence() {
-  // (will show sequence with ?)
+let { sequence, difference } = generateSequence();
+
+const sequenceElement = document.getElementById("sequence");
+const input = document.getElementById("answerInput");
+const feedback = document.getElementById("feedback");
+
+// Show initial sequence
+function updateSequenceDisplay() {
+  sequenceElement.innerText = sequence.join(", ");
 }
 
-function checkAnswer(input) {
-  // (will validate input)
-}
+updateSequenceDisplay();
 
-// Start game
-generateSequence();
-displaySequence();
+// Listen for Enter key
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    const userAnswer = parseInt(input.value.trim(), 10);
+    const correctAnswer = sequence[sequence.length - 1] + difference;
+
+    if (userAnswer === correctAnswer) {
+      sequence.push(correctAnswer);
+      feedback.innerText = "✅ Correct!";
+      feedback.style.color = "lightgreen";
+      updateSequenceDisplay();
+      input.value = "";
+    } else {
+      feedback.innerText = "❌ Try again.";
+      feedback.style.color = "salmon";
+    }
+  }
+});
