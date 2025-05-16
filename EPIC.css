@@ -1,4 +1,60 @@
-: body {
-  background-image:"https://www.sekaipedia.org/wiki/Yoisaki_Kanade/Gallery#/media/File:Kanade_26_art.png";
+/* fullscreen background */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('your-background-image.jpg') no-repeat center center/cover;
+  filter: blur(6px);
+  z-index: -1;
+}
+
+/* centered meow */
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  padding: 30px;
+  color: white;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  width: 300px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.card h2 {
+  margin-bottom: 10px;
+}
+
+.card .description {
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  color: #ccc;
+}
+
+.card .sequence {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+input#answer {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
 }
 
