@@ -13,6 +13,7 @@ let { sequence, difference } = generateSequence();
 const sequenceElement = document.getElementById("sequence");
 const input = document.getElementById("answerInput");
 const feedback = document.getElementById("feedback");
+const submitButton = document.getElementById("submitButton");
 
 // Show initial sequence
 function updateSequenceDisplay() {
@@ -21,21 +22,26 @@ function updateSequenceDisplay() {
 
 updateSequenceDisplay();
 
-// Listen for Enter key
+function checkAnswer() {
+  const userAnswer = parseInt(input.value.trim(), 10);
+  const correctAnswer = sequence[sequence.length - 1] + difference;
+
+  if (userAnswer === correctAnswer) {
+    sequence.push(correctAnswer);
+    feedback.innerText = "✅ Correct!";
+    feedback.style.color = "lightgreen";
+    updateSequenceDisplay();
+    input.value = "";
+  } else {
+    feedback.innerText = "❌ Try again.";
+    feedback.style.color = "salmon";
+  }
+}
+
 input.addEventListener("keydown", function (e) {
   if (e.key === "Enter") {
-    const userAnswer = parseInt(input.value.trim(), 10);
-    const correctAnswer = sequence[sequence.length - 1] + difference;
-
-    if (userAnswer === correctAnswer) {
-      sequence.push(correctAnswer);
-      feedback.innerText = "✅ Correct!";
-      feedback.style.color = "lightgreen";
-      updateSequenceDisplay();
-      input.value = "";
-    } else {
-      feedback.innerText = "❌ Try again.";
-      feedback.style.color = "salmon";
-    }
+    checkAnswer();
   }
 });
+
+submitButton.addEventListener("click", checkAnswer);
