@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html lang = "en">
-    <head>
-      <meta charset = "UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>EPIC</title>
-      <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <h1>EPIC GAME!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</h1>
-        <p>What's the missing number?</p>
-        <script src="script.js"></script>
-        <div>
-            <p id="sequence">placeholder</p>
-            <p>Answer:</p>   
-            <input></input>
-            <h id="feedback">placeholder</h>
-        <input type=button>click for a funny</input> 
-        </div>    
-    </body>
-</html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sequence Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="background"></div>
+
+  <div class="card">
+    <h2>Continue the sequence by two</h2>
+    <p class="description">The sequence is arithmetic.</p>
+    <p class="sequence" id="sequence">blah blah blaj sequence here</p>
+
+    <input type="text" id="answer" placeholder="Type in your answer..." />
+    <div id="feedback"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
