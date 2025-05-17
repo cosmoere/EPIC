@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
-  let { sequence, difference } = generateSequence();
+  @@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
+   let { sequence, difference } = generateSequence();
 
   const sequenceElement = document.getElementById("sequence");
   const input = document.getElementById("answer");
