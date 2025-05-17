@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let { sequence, difference } = generateSequence();
 
   const sequenceElement = document.getElementById("sequence");
-  const input = document.getElementById("answerInput");
+  const input = document.getElementById("answer");
   const feedback = document.getElementById("feedback");
   const submitButton = document.getElementById("submitButton");
 
