@@ -1,25 +1,244 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sequence Game</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequence Challenge</title>
+  <style>
+    /* Full-screen background */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: "Segoe UI", sans-serif;
+    }
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('/api/placeholder/1920/1080') no-repeat center center/cover;
+      filter: blur(4px);
+      z-index: -1;
+    }
+    /* Centered glassmorphic card */
+    .card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 20px;
+      padding: 30px;
+      color: white;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      width: 300px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+    .card h2 {
+      margin-bottom: 10px;
+    }
+    .card .description {
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+    .card .sequence {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    input#answer {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+      margin-bottom: 15px;
+    }
+    /* Enter button styling */
+    button#submitButton {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button#submitButton:hover {
+      background-color: #2980b9;
+    }
+    /* Feedback text */
+    #feedback {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+    /* New sequence button */
+    button#newSequenceButton {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #27ae60;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 15px;
+      display: none;
+    }
+    button#newSequenceButton:hover {
+      background-color: #219652;
+    }
+    /* Sequence type indicator */
+    .sequence-type {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 0.8rem;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 5px 10px;
+      border-radius: 10px;
+    }
+  </style>
 </head>
 <body>
   <div class="background"></div>
-
+  
   <div class="card">
-    <h2>Continue the sequence by two</h2>
-    <p class="description">The sequence is arithmetic.</p>
-    <p class="sequence" id="sequence">blah blah blaj sequence here</p>
-
-    <input type="number" id="answer" placeholder="Your answer..." />
-  	<button id="submitButton">Enter</button>
-  	<p id="feedback"></p>
-
+    <div class="sequence-type" id="sequenceType"></div>
+    <h2>Sequence Challenge</h2>
+    <div class="description">What comes next in this sequence?</div>
+    <div class="sequence" id="sequenceDisplay"></div>
+    <input type="number" id="answer" placeholder="Enter your answer">
+    <button id="submitButton">Submit Answer</button>
+    <div id="feedback"></div>
+    <button id="newSequenceButton">New Sequence</button>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    // Global variables to store sequence information
+    let currentSequence = [];
+    let nextNumber = 0;
+    let isArithmetic = false;
+    let difference = 0;
+    let ratio = 0;
+
+    // Function to generate a random integer between min and max (inclusive)
+    function getRandomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    // Function to generate a random sequence (either arithmetic or geometric)
+    function generateRandomSequence() {
+      const sequenceType = document.getElementById('sequenceType');
+      
+      // Decide randomly between arithmetic and geometric sequence
+      isArithmetic = Math.random() < 0.5;
+      
+      if (isArithmetic) {
+        // Generate arithmetic sequence
+        sequenceType.textContent = "Arithmetic Sequence";
+        
+        // Start with a random number between -20 and 20
+        const start = getRandomInt(-20, 20);
+        
+        // Choose a common difference between -10 and 10 (excluding 0)
+        difference = getRandomInt(-10, 10);
+        if (difference === 0) difference = 1;
+        
+        // Generate the sequence
+        currentSequence = [];
+        for (let i = 0; i < 5; i++) {
+          currentSequence.push(start + i * difference);
+        }
+        
+        // Calculate the next number
+        nextNumber = start + 5 * difference;
+      } else {
+        // Generate geometric sequence
+        sequenceType.textContent = "Geometric Sequence";
+        
+        // Start with a non-zero random number between -10 and 10
+        let start = getRandomInt(-10, 10);
+        if (start === 0) start = 1;
+        
+        // Choose a common ratio between -3 and 3 (excluding 0, -1, and 1)
+        ratio = getRandomInt(-3, 3);
+        if (ratio === 0 || ratio === -1 || ratio === 1) ratio = 2;
+        
+        // Generate the sequence
+        currentSequence = [];
+        let currentValue = start;
+        for (let i = 0; i < 5; i++) {
+          currentSequence.push(currentValue);
+          currentValue *= ratio;
+        }
+        
+        // Calculate the next number
+        nextNumber = currentSequence[4] * ratio;
+      }
+      
+      // Display the sequence
+      document.getElementById('sequenceDisplay').textContent = currentSequence.join(', ') + ', ?';
+      
+      // Reset the input and feedback
+      document.getElementById('answer').value = '';
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('feedback').style.color = 'white';
+      
+      // Hide the new sequence button and enable the submit button
+      document.getElementById('newSequenceButton').style.display = 'none';
+      document.getElementById('submitButton').disabled = false;
+      document.getElementById('answer').focus();
+    }
+
+    // Function to check the user's answer
+    function checkAnswer() {
+      const userAnswer = parseFloat(document.getElementById('answer').value);
+      const feedback = document.getElementById('feedback');
+      
+      if (isNaN(userAnswer)) {
+        feedback.textContent = 'Please enter a valid number.';
+        feedback.style.color = '#e74c3c';
+        return;
+      }
+      
+      // Check if the answer is correct (within a small epsilon for floating point errors)
+      const epsilon = 0.001;
+      if (Math.abs(userAnswer - nextNumber) < epsilon) {
+        feedback.textContent = 'Correct! ' + (isArithmetic ? 
+          `This is an arithmetic sequence with common difference of ${difference}.` : 
+          `This is a geometric sequence with common ratio of ${ratio}.`);
+        feedback.style.color = '#2ecc71';
+        document.getElementById('newSequenceButton').style.display = 'block';
+        document.getElementById('submitButton').disabled = true;
+      } else {
+        feedback.textContent = 'Incorrect. Try again.';
+        feedback.style.color = '#e74c3c';
+      }
+    }
+
+    // Event listeners
+    document.getElementById('submitButton').addEventListener('click', checkAnswer);
+    document.getElementById('newSequenceButton').addEventListener('click', generateRandomSequence);
+    
+    // Allow Enter key to submit answer
+    document.getElementById('answer').addEventListener('keypress', function(event) {
+      if (event.key === 'Enter') {
+        checkAnswer();
+      }
+    });
+
+    // Initialize the page with a random sequence
+    window.addEventListener('load', generateRandomSequence);
+  </script>
 </body>
 </html>
